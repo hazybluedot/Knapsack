@@ -117,25 +117,38 @@ class Collection implements IteratorAggregate, \Serializable, CollectionInterfac
     /**
      * {@inheritdoc}
      */
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize(
-            toArray(
-                map(
-                    $this->input,
-                    function ($value, $key) {
-                        return [$key, $value];
-                    }
-                )
+        return toArray(
+            map(
+                $this->input,
+                function ($value, $key) {
+                    return [$key, $value];
+                }
             )
         );
     }
 
+     /**
+     * {@inheritdoc}
+     */
+    public function serialize(): ?string
+    {
+        return serialize($this->__serialize());
+    }
+    
     /**
      * {@inheritdoc}
      */
-    public function unserialize($serialized)
+    public function __unserialize($serialized)
     {
         $this->input = dereferenceKeyValue(unserialize($serialized));
+    }
+    
+     /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized): void {
+        $this->__unserialize($serialized);
     }
 }
