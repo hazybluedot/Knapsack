@@ -95,7 +95,7 @@ class Collection implements IteratorAggregate, \Serializable, CollectionInterfac
      * {@inheritdoc}
      * @throws InvalidReturnValue
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         if ($this->inputFactory) {
             $input = call_user_func($this->inputFactory);
